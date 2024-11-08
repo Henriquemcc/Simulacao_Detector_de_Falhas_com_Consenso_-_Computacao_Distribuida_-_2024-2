@@ -3,6 +3,7 @@
  */
 package org.example
 
+import io.github.henriquemcc.simulacao.detector.falhas.consenso.App
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertNotNull
 
