@@ -18,7 +18,7 @@ fun main() {
     val tempoSimulacao = readDouble("Tempo de simulação (em segundos): ", LongRange(1, Double.MAX_VALUE.toLong()))
 
     // Obtendo o timeout
-    val timeout = readLong("Maxima diferença de tempo permitida pelo Oráculo para acusar um processo de falho (em milissegundos) (exemplo: 1000): ", LongRange(1, Long.MAX_VALUE))
+    val timeout = readLong("Diferença de tempo limite para o Oráculo acusar um processo de falho (em milissegundos) (exemplo: 1000): ", LongRange(1, Long.MAX_VALUE))
 
     // Criando uma instância do detector de falhas
     val detectorFalhasConsenso = DetectorFalhasConsenso(numeroProcessos, timeout)
