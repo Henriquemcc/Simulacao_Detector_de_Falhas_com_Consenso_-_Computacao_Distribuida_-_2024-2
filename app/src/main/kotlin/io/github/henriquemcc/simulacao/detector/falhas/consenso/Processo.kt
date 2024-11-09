@@ -32,7 +32,7 @@ class Processo(private val id: Int, private val detectorFalhasConsenso: Detector
 
             // Falhando
             falho.set(Random.nextBoolean())
-            while (falho.get()) {
+            while (falho.get() && !detectorFalhasConsenso.stopFlag.get()) {
                 println("O processo $id está falho")
                 sleep(Random.nextLong(60000))
 
