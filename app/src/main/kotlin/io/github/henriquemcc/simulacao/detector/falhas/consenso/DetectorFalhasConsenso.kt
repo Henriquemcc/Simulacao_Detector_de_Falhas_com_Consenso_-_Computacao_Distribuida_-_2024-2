@@ -2,7 +2,10 @@ package io.github.henriquemcc.simulacao.detector.falhas.consenso
 
 import java.util.concurrent.atomic.AtomicBoolean
 
-class DetectorFalhasConsenso(val numeroProcessos: Int): Thread() {
+class DetectorFalhasConsenso(
+    private val numeroProcessos: Int,
+    private val timeout: Long
+): Thread() {
 
     /**
      * Flag que as threads dos processos vão olhar para finalizarem a execução.
@@ -17,7 +20,12 @@ class DetectorFalhasConsenso(val numeroProcessos: Int): Thread() {
     /**
      * Canal de comunicação a ser utilizado pelos processos.
      */
-    val canalComunicacao = CanalComunicacao()
+    val canalComunicacao = CanalComunicacao(numeroProcessos)
+
+    /**
+     * Oráculo.
+     */
+    val oraculo = Oraculo(this, timeout)
 
     /**
      * Construtor da classe DetectorFalhasConsenso.

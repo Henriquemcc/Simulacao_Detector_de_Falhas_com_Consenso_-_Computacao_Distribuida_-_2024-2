@@ -1,4 +1,3 @@
 package io.github.henriquemcc.simulacao.detector.falhas.consenso
 
-class Mensagem {
-}
+interface Mensagem
