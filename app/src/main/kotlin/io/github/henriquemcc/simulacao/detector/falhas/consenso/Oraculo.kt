@@ -35,14 +35,17 @@ class Oraculo(
 
     override fun run() {
         while (!detectorFalhasConsenso.stopFlag.get()) {
+            val estadosProcessos = obterEstadosProcessos()
+            val processosFalhos = obterProcessosFalhos(estadosProcessos)
             sleep(Random.nextLong(1000))
             val mensagensRecebidas = detectorFalhasConsenso.canalComunicacao.receberMensagemOraculo()
             for (mensagem in mensagensRecebidas) {
                 when (mensagem) {
                     is Heartbeat -> timestampUltimoHeartbeat[mensagem.processoOrigem] = mensagem.relogio
-                    is RequisicaoEstadoOutrosProcessos -> detectorFalhasConsenso.canalComunicacao.enviarMensagem(RespostaEstadoOutrosProcessos(obterEstadosProcessos(), mensagem.processoOrigem))
+                    is RequisicaoEstadoOutrosProcessos -> detectorFalhasConsenso.canalComunicacao.enviarMensagem(RespostaEstadoOutrosProcessos(estadosProcessos, mensagem.processoOrigem))
                 }
             }
+            println("Lista de processos falhos do Oráculo: $processosFalhos}")
         }
     }
 }

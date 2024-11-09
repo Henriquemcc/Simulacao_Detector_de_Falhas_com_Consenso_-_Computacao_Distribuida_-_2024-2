@@ -17,11 +17,6 @@ class Processo(private val id: Int, private val detectorFalhasConsenso: Detector
     private var falho = AtomicBoolean(false)
 
     /**
-     * Conjunto com os ids dos processos falhos.
-     */
-    private val processosFalhos = sortedSetOf<Int>()
-
-    /**
      * Executa a simulação do funcionamento de um processo.
      */
     override fun run() {
@@ -59,15 +54,11 @@ class Processo(private val id: Int, private val detectorFalhasConsenso: Detector
 
 
                 // Recebendo mensagens
+                var processosFalhos = setOf<Int>()
                 val mensagensRecebidas = detectorFalhasConsenso.canalComunicacao.receberMensagemProcesso(id)
                 for (mensagem in mensagensRecebidas) {
                     if (mensagem is RespostaEstadoOutrosProcessos) {
-                        mensagem.estadoProcessos.forEach { (idProcesso, estado) ->
-                            when (estado) {
-                                EstadoProcesso.FALHO -> processosFalhos.add(idProcesso)
-                                EstadoProcesso.CORRETO -> processosFalhos.remove(idProcesso)
-                            }
-                        }
+                        processosFalhos = obterProcessosFalhos(mensagem.estadoProcessos)
                     }
                 }
                 println("Lista de processos falhos de $id: $processosFalhos")
