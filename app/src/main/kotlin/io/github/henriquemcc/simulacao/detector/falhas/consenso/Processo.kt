@@ -56,26 +56,26 @@ class Processo(private val id: Int, private val detectorFalhasConsenso: Detector
             if (!falho.get()) {
                 println("O processo $id enviou seu heartbeat")
                 detectorFalhasConsenso.canalComunicacao.enviarMensagem(Heartbeat(id, LocalDateTime.now()))
-            }
 
-            // Recebendo mensagens
-            val mensagensRecebidas = detectorFalhasConsenso.canalComunicacao.receberMensagemProcesso(id)
-            for (mensagem in mensagensRecebidas) {
-                if (mensagem is RespostaEstadoOutrosProcessos) {
-                    mensagem.estadoProcessos.forEach { (idProcesso, estado) ->
-                        when (estado) {
-                            EstadoProcesso.FALHO -> processosFalhos.add(idProcesso)
-                            EstadoProcesso.CORRETO -> processosFalhos.remove(idProcesso)
+
+                // Recebendo mensagens
+                val mensagensRecebidas = detectorFalhasConsenso.canalComunicacao.receberMensagemProcesso(id)
+                for (mensagem in mensagensRecebidas) {
+                    if (mensagem is RespostaEstadoOutrosProcessos) {
+                        mensagem.estadoProcessos.forEach { (idProcesso, estado) ->
+                            when (estado) {
+                                EstadoProcesso.FALHO -> processosFalhos.add(idProcesso)
+                                EstadoProcesso.CORRETO -> processosFalhos.remove(idProcesso)
+                            }
                         }
                     }
                 }
+                println("Lista de processos falhos de $id: $processosFalhos")
+
+                // Solicitando os estados dos processos
+                println("O processo $id solicitou o estado dos outros processos")
+                detectorFalhasConsenso.canalComunicacao.enviarMensagem(RequisicaoEstadoOutrosProcessos(id))
             }
-            println("Lista de processos falhos de $id: $processosFalhos")
-
-            // Solicitando os estados dos processos
-            println("O processo $id solicitou o estado dos outros processos")
-            detectorFalhasConsenso.canalComunicacao.enviarMensagem(RequisicaoEstadoOutrosProcessos(id))
-
         }
     }
 
