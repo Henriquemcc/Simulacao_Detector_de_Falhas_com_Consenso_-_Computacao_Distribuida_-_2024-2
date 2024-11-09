@@ -37,7 +37,7 @@ class Oraculo(
         while (!detectorFalhasConsenso.stopFlag.get()) {
             val estadosProcessos = obterEstadosProcessos()
             val processosFalhos = obterProcessosFalhos(estadosProcessos)
-            println("Lista de processos falhos do Oráculo: $processosFalhos}")
+            println("Lista de processos falhos do Oráculo: $processosFalhos")
             sleep(Random.nextLong(1000))
             val mensagensRecebidas = detectorFalhasConsenso.canalComunicacao.receberMensagemOraculo()
             for (mensagem in mensagensRecebidas) {
