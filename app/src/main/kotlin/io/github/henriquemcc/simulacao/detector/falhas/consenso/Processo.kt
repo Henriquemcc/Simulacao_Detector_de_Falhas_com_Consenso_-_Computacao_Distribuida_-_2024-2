@@ -44,6 +44,7 @@ class Processo(private val id: Int, private val detectorFalhasConsenso: Detector
      * Thread responsável pelo envio e recebimento de mensagens.
      */
     private val daemonMensagens = Thread {
+        var processosFalhos = setOf<Int>()
         while (!detectorFalhasConsenso.stopFlag.get()) {
             sleep(Random.nextLong(1000))
 
@@ -54,7 +55,6 @@ class Processo(private val id: Int, private val detectorFalhasConsenso: Detector
 
 
                 // Recebendo mensagens
-                var processosFalhos = setOf<Int>()
                 val mensagensRecebidas = detectorFalhasConsenso.canalComunicacao.receberMensagemProcesso(id)
                 for (mensagem in mensagensRecebidas) {
                     if (mensagem is RespostaEstadoOutrosProcessos) {
