@@ -40,6 +40,7 @@ class DetectorFalhasConsenso(
      * Executa os processos.
      */
     override fun run() {
+        oraculo.start()
         for (processo in processos)
             processo.start()
     }
