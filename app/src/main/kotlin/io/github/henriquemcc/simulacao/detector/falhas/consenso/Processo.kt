@@ -28,13 +28,13 @@ class Processo(private val id: Int, private val detectorFalhasConsenso: Detector
         println("Processo $id está em execução")
         daemonMensagens.start()
         while (!detectorFalhasConsenso.stopFlag.get()) {
-            sleep(Random.nextLong(15000))
+            sleep(Random.nextLong(1000))
 
             // Falhando
             falho.set(Random.nextBoolean())
             while (falho.get() && !detectorFalhasConsenso.stopFlag.get()) {
                 println("O processo $id está falho")
-                sleep(Random.nextLong(60000))
+                sleep(Random.nextLong(1000))
 
                 // Saindo da falha
                 falho.set(Random.nextBoolean())
