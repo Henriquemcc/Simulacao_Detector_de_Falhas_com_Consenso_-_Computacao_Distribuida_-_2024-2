@@ -1,3 +1,5 @@
+[English Version](README.EN.md)
+
 # Simulação Detector de Falhas com Consenso - Computação Distribuída - 2024-2
 
 Trabalho da matéria Computação Distribuída no qual deveria ser desenvolvido uma simulação do funcionamento do detector de falhas com consenso.
@@ -32,7 +34,7 @@ gradlew build
 
 Os arquivos .jar podem ser gerados através do gradle. Para gerar os arquivos .jar, no terminal, na pasta do projeto, digite o seguinte comando:
 
-No terminal do Linux ou Mac:
+No Terminal do Linux ou Mac:
 
 ```
 ./gradlew jar
